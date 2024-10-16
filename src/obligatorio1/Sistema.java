@@ -4,7 +4,6 @@ Renzo macchi
 package obligatorio1;
 import java.util.*;
 
-
 public class Sistema {
     private static Scanner in = new Scanner(System.in);
     private static Jugador PC = new Jugador("PC","PC",0);

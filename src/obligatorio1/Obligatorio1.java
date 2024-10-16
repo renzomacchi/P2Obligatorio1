@@ -1,7 +1,6 @@
 /*Santiago Clavere
   Renzo Machi
 */
-
 package obligatorio1;
 
 import java.util.*;

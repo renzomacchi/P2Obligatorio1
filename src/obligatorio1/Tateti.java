@@ -1,13 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+/* Santiago Clavere
+Renzo macchi
+*/
 package obligatorio1;
 
-/**
- *
- * @author Lenovo
- */
 public class Tateti {
     private char[][] tablero;
     private char ganador;
