@@ -116,19 +116,35 @@ public class Obligatorio1 {
             sistema.nuevaPartida(j1,j2);
             String input = "";
             boolean fin = false;
-            while(!input.toUpperCase().equals("X") && !fin) {
+            while(!salir(input) && !fin) {
                 String turno = sistema.getPartida().getTurno();
+                int[] pos;
+                
                 formatoCorrecto();
-                System.out.println(turno + " elige donde empezar");
+                System.out.println(turno + " elige donde empezar!");
                 input = in.nextLine();
-                while (stringToCoords(input)[0] == -1 && !input.toUpperCase().equals("X")) {
+                while (!salir(input) && stringToCoords(input)[0] == -1) {
+                    formatoCorrecto();
+                    System.out.println("Ingrese una coordenada valida");
+                    input = in.nextLine();
+                }
+                pos = stringToCoords(input);
+                sistema.getPartida().setPos(pos[0],pos[1]);
+                sistema.getPartida().display();
+                
+                System.out.println(turno + " juega!");
+                input = in.nextLine();
+                while (!salir(input) && stringToCoords(input)[0] == -1) {
                     formatoCorrecto();
                     System.out.println("Ingrese una coordenada valida ");
                     input = in.nextLine();
                 }
-                int[] pos = stringToCoords(input);
-                sistema.getPartida().setPos(pos[0],pos[1]);
-                sistema.getPartida().display();
+                pos = stringToCoords(input);
+                int status = sistema.getPartida().jugada(pos[0], pos[1]);
+                switch(status) {
+                    case 0:
+                        
+                }
             }
             System.out.println("Partida Finalizada");
             System.out.println("--------------------------");
@@ -256,12 +272,12 @@ public class Obligatorio1 {
         System.out.println("C1|C2|C3");
     }
     
+    public static boolean salir(String input) {
+        return input.toUpperCase().equals("X");
+    }
+    
     private static void debugData() {
         //BORRAR
-        Partida p = new Partida('X');
-        p.display();
-//        t.jugada('X');
-//        t.display();
         sistema.agregarJugador("Alias", "Nombre", 12);
         sistema.agregarJugador("Pipa", "Nombre", 21);
         sistema.agregarJugador("DarkFlameMaster", "Nombre", 16);
