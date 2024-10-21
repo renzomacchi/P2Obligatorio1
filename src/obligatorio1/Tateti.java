@@ -33,6 +33,9 @@ public class Tateti {
         if (this.esVacio(posX,posY)) {
             this.setCharAt(posX, posY, turno);
             status = true;
+            if(this.checkGanar()) {
+                this.ganador = turno;
+            }
         }
         return status;
     }
@@ -54,34 +57,42 @@ public class Tateti {
     
     public boolean checkGanar() {
         boolean result = false;
-        for(int i = 0; i < this.tablero.length && !result; i++) {
-            if (tablero[i][0] == tablero[i][1] && tablero[i][1] == tablero[i][2] && tablero[i][0] != ' ') {
-                //x x x
-                //y y y
-                //z z z
-                result = true;
+        if (this.getGanador() == ' ') {
+            for(int i = 0; i < this.tablero.length && !result; i++) {
+                if(tablero[i][0] != ' ') {
+                    if (tablero[i][0] == tablero[i][1] && tablero[i][1] == tablero[i][2]) {
+                        //x x x
+                        //y y y
+                        //z z z
+                        result = true;
+                    }
+                }
             }
-        }
-        for(int j = 0; j < tablero[0].length && !result; j++) {
-            if (tablero[0][j] == tablero[1][j] && tablero[1][j] == tablero[2][j] && tablero[j][0] != ' ') {
-                //x y z
-                //x y z
-                //x y z
-                result = true;
+            for(int j = 0; j < tablero[0].length && !result; j++) {
+                if(tablero[0][j] != ' ') {
+                    if (tablero[0][j] == tablero[1][j] && tablero[1][j] == tablero[2][j]) {
+                        //x y z
+                        //x y z
+                        //x y z
+                        result = true;
+                    }
+                }
             }
-        }
-        if(!result) {
-            if (tablero[0][0] == tablero[1][1] && tablero[1][1] == tablero[2][2] && tablero[0][0] != ' ') {
-                //x - -
-                //- x -
-                //- - x
-                result = true;
-            } else
-            if (tablero[0][2] == tablero[1][1] && tablero[1][1] == tablero[2][0] && tablero[0][2] != ' ') {
-                //- - x
-                //- x -
-                //x - -
-                result = true;
+            if(!result) {
+                if (tablero[1][1] != ' ') {
+                    if (tablero[0][0] == tablero[1][1] && tablero[1][1] == tablero[2][2]) {
+                        //x - -
+                        //- x -
+                        //- - x
+                        result = true;
+                    } else
+                    if (tablero[0][2] == tablero[1][1] && tablero[1][1] == tablero[2][0]) {
+                        //- - x
+                        //- x -
+                        //x - -
+                        result = true;
+                    }
+                }
             }
         }
         return result;

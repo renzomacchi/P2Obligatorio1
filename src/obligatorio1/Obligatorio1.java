@@ -5,6 +5,8 @@ package obligatorio1;
 
 import java.util.*;
 // [BORRAR] antes de entregar
+// BORRAR Verificar que hallan al menos 1 jugador para jugar contra pc
+// BORRAR Verificar que hallan al menos 2 jugadores para jugar 1v1
 public class Obligatorio1 {
     private static final String separador = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
     private static final Scanner in = new Scanner(System.in);
@@ -116,35 +118,49 @@ public class Obligatorio1 {
             sistema.nuevaPartida(j1,j2);
             String input = "";
             boolean fin = false;
-            while(!salir(input) && !fin) {
-                String turno = sistema.getPartida().getTurno();
-                int[] pos;
-                
-                formatoCorrecto();
-                System.out.println(turno + " elige donde empezar!");
-                input = in.nextLine();
-                while (!salir(input) && stringToCoords(input)[0] == -1) {
-                    formatoCorrecto();
-                    System.out.println("Ingrese una coordenada valida");
-                    input = in.nextLine();
-                }
+            
+            //Primer Ingreso
+            String turno = sistema.getPartida().getTurno();
+            int[] pos = new int[2];
+            formatoCorrecto();
+            System.out.println(turno + " elige donde empezar!");
+            input = obtenerInputValido();
+            if(!salir(input)) {
                 pos = stringToCoords(input);
                 sistema.getPartida().setPos(pos[0],pos[1]);
+            }
+            String mensaje = turno + " juega!";
+            while(!salir(input) && !fin) {
+                //Ingresos
                 sistema.getPartida().display();
-                
-                System.out.println(turno + " juega!");
-                input = in.nextLine();
-                while (!salir(input) && stringToCoords(input)[0] == -1) {
-                    formatoCorrecto();
-                    System.out.println("Ingrese una coordenada valida ");
-                    input = in.nextLine();
+                turno = sistema.getPartida().getTurno();
+                System.out.println(mensaje);
+                mensaje = turno + " juega!";
+                input = obtenerInputValido();
+                if(!salir(input)) {
+                    pos = stringToCoords(input);
                 }
-                pos = stringToCoords(input);
                 int status = sistema.getPartida().jugada(pos[0], pos[1]);
                 switch(status) {
                     case 0:
-                        
+                        //Jugada Invalida (posicion ocupada)
+                        mensaje = "Posicion ocupada, intente otra posicion";
+                        break;
+                    case 1:
+                        //Jugada Realizada exitosamente
+                        break;
+                    case 2:
+                        //Jugada Gano el subTateti
+                        mensaje = sistema.getPartida().getTurno() + " gano un mini tateti!";
+                        break;
+                    case 3:
+                        //Jugada Gana el Gran tateti
+                        mensaje = sistema.getPartida().getTurno() + " gano la partida!";
+                        break;
+                    default:
+                        System.out.println("Hubo un error desconocido");
                 }
+                
             }
             System.out.println("Partida Finalizada");
             System.out.println("--------------------------");
@@ -153,6 +169,16 @@ public class Obligatorio1 {
     
     public static void partidaPC() {
         System.out.println("Gran tateti contra pc");
+    }
+    
+    public static String obtenerInputValido() {
+        String input = in.nextLine();
+        while (!salir(input) && stringToCoords(input)[0] == -1) {
+            formatoCorrecto();
+            System.out.println("Ingrese una coordenada valida");
+            input = in.nextLine();
+        }
+        return input;
     }
     
     public static void ranking() {
